@@ -26,7 +26,18 @@ const {
     InteractionType,
     TextInputStyle
 } = require("discord.js");
+const http = require("http");
 const cron = require("node-cron");
+
+const PORT = process.env.PORT || 10000;
+http
+  .createServer((req, res) => {
+    res.writeHead(200, { "Content-Type": "text/plain" });
+    res.end("OK");
+  })
+  .listen(PORT, () => {
+    console.log(`🌐 Keep-alive server up on port ${PORT}`);
+  });
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -50,7 +61,12 @@ const client = new Client({
 
  
 
-client.login("VALE TOKEN EDO");
+if (!process.env.TOKEN) {
+  console.error("❌ Δεν βρέθηκε TOKEN. Πρόσθεσε το environment variable TOKEN (π.χ. στο Render -> Environment).");
+  process.exit(1);
+}
+
+client.login(process.env.TOKEN);
 
 const GUILD_ID = "1477021452686327880";
 
