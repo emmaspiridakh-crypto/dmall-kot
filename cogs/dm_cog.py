@@ -89,14 +89,14 @@ class DMCog(commands.Cog):
     @commands.has_permissions(administrator=True)
     async def permsid(self, ctx: commands.Context, role: discord.Role):
         await Database.set_perms_role(str(ctx.guild.id), str(role.id))
-        await ctx.send(f"✅ Το role {role.mention} μπορεί πλέον να τρέχει `!dmall` και `!dmrole`.")
+        await ctx.send(f" Το role {role.mention} μπορεί πλέον να τρέχει `!dmall` και `!dmrole`.")
 
     @permsid.error
     async def permsid_error(self, ctx: commands.Context, error):
         if isinstance(error, commands.MissingPermissions):
-            await ctx.send("❌ Χρειάζεσαι δικαίωμα **Administrator** για να το ορίσεις.")
+            await ctx.send("Χρειάζεσαι δικαίωμα **Administrator** για να το ορίσεις.")
         elif isinstance(error, commands.RoleNotFound):
-            await ctx.send("❌ Δεν βρέθηκε role. Χρησιμοποίησε ID ή @role.")
+            await ctx.send("Δεν βρέθηκε role. Χρησιμοποίησε ID ή @role.")
         elif isinstance(error, commands.MissingRequiredArgument):
             await ctx.send("Χρήση: `!permsid <role_id ή @role>`")
 
@@ -104,21 +104,21 @@ class DMCog(commands.Cog):
     @commands.has_permissions(administrator=True)
     async def setlogchannel(self, ctx: commands.Context, channel: discord.TextChannel):
         await Database.set_log_channel(str(ctx.guild.id), str(channel.id))
-        await ctx.send(f"✅ Τα logs θα στέλνονται στο {channel.mention}.")
+        await ctx.send(f"Τα logs θα στέλνονται στο {channel.mention}.")
 
     @setlogchannel.error
     async def setlogchannel_error(self, ctx: commands.Context, error):
         if isinstance(error, commands.MissingPermissions):
-            await ctx.send("❌ Χρειάζεσαι δικαίωμα **Administrator** για να το ορίσεις.")
+            await ctx.send("Χρειάζεσαι δικαίωμα **Administrator** για να το ορίσεις.")
         elif isinstance(error, commands.ChannelNotFound):
-            await ctx.send("❌ Δεν βρέθηκε το κανάλι.")
+            await ctx.send("Δεν βρέθηκε το κανάλι.")
         elif isinstance(error, commands.MissingRequiredArgument):
             await ctx.send("Χρήση: `!setlogchannel #κανάλι`")
 
     @commands.command(name="dmall")
     async def dmall(self, ctx: commands.Context, *, message: str = None):
         if not await self._has_dm_perms(ctx):
-            await ctx.send("❌ Δεν έχεις δικαίωμα για αυτή την εντολή.")
+            await ctx.send("Δεν έχεις δικαίωμα για αυτή την εντολή.")
             return
         if not message:
             await ctx.send("Χρήση: `!dmall <μήνυμα>`")
@@ -128,7 +128,7 @@ class DMCog(commands.Cog):
     @commands.command(name="dmrole")
     async def dmrole(self, ctx: commands.Context, role: discord.Role = None, *, message: str = None):
         if not await self._has_dm_perms(ctx):
-            await ctx.send("❌ Δεν έχεις δικαίωμα για αυτή την εντολή.")
+            await ctx.send("Δεν έχεις δικαίωμα για αυτή την εντολή.")
             return
         if role is None or not message:
             await ctx.send("Χρήση: `!dmrole <@role ή role_id> <μήνυμα>`")
